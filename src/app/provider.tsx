@@ -1,18 +1,17 @@
 "use client"
 import { useUser } from '@clerk/nextjs'
-import { ReactNode, useEffect } from 'react'
-
-interface ProviderProps {
-	children: ReactNode
-}
+import { useEffect, useState } from 'react'
+import { userContext } from '@/context/UserContext'
+import { UserInfo, ProviderProps } from "@/types/types";
 
 const Provider = ({ children }: ProviderProps) => {
-const { user } = useUser();
+	const { user } = useUser();
+	const [userDetail, setuserDetail] = useState<UserInfo | []>([])
 
 	useEffect(() => {
 		if (user) verifyUser();
 	}, [user])
-	
+
 	const verifyUser = async () => {
 		const response = await fetch('/api/verify-user', {
 			method: 'POST',
@@ -21,19 +20,21 @@ const { user } = useUser();
 			},
 			body: JSON.stringify({ user: user })
 		})
-		
+
 		if (!response.ok) {
 			throw new Error('Failed to verify user');
 		}
-	
+
 		const data = await response.json();
-		console.log(data)
+		setuserDetail(data.result)
 		return data
 	}
 	return (
-		<div>
-			{children}
-		</div>
+		<userContext.Provider value={{userDetail, setuserDetail}}>
+			<div>
+				{children}
+			</div>
+		</userContext.Provider>
 	)
 }
 
