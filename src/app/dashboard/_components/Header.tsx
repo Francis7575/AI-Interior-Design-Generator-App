@@ -24,7 +24,7 @@ const Header = () => {
       <div className="flex items-center gap-6">
         <div className="flex gap-2 py-1 items-center bg-slate-200 px-4 rounded-full">
           <Image src={'/star.png'} width={20} height={20} alt="" />
-          <span>{userDetail.credits}</span>
+          <span>{userDetail?.credits}</span>
         </div>
         <UserButton />
       </div>
