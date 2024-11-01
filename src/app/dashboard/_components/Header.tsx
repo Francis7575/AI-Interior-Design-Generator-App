@@ -16,7 +16,7 @@ const Header = () => {
     <header className="p-5 shadow-sm flex justify-between items-center">
       <div className="flex items-center gap-2">
         <Image src={'/logo.svg'} width={40} height={40} alt="" />
-        <h2 className="font-bold text-lg">AI Room Design</h2>
+        <h2 className="font-bold text-lg hidden md:block">AI Room Design</h2>
       </div>
       <Button variant="ghost" className="rounded-full text-primary">
         Buy More Credits
