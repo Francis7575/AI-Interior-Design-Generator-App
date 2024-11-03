@@ -1,4 +1,4 @@
-import { ProviderProps } from "@/types/types";
+  import { ProviderProps } from "@/types/types";
 import Header from "./_components/Header";
 
 const DashboardLayout = ({ children }: ProviderProps) => {

@@ -13,21 +13,26 @@ const Provider = ({ children }: ProviderProps) => {
 	}, [user])
 
 	const verifyUser = async () => {
-		const response = await fetch('/api/verify-user', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ user: user })
-		})
-
-		if (!response.ok) {
-			throw new Error('Failed to verify user');
+		try {
+			const response = await fetch('/api/verify-user', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ user: user })
+			})
+	
+			if (!response.ok) {
+				throw new Error('Failed to verify user');
+			}
+	
+			const data = await response.json();
+			setuserDetail(data.result)
+			return data
+		} catch (err) {
+			console.error(err)
 		}
-
-		const data = await response.json();
-		setuserDetail(data.result)
-		return data
+		
 	}
 	return (
 		<userContext.Provider value={{userDetail, setuserDetail}}>

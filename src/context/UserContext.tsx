@@ -4,8 +4,8 @@ import { UserInfo } from "@/types/types";
 import { createContext } from "react";
 
 interface UserContextType {
-  userDetail: UserInfo | null;
-  setuserDetail: React.Dispatch<React.SetStateAction<UserInfo | null>>;
+  userDetail: UserInfo | [];
+  setuserDetail: React.Dispatch<React.SetStateAction<UserInfo | []>>;
 }
 
 export const userContext = createContext<UserContextType | null>(null);

@@ -3,15 +3,17 @@ import Image from "next/image"
 import { ChangeEvent, useState } from "react"
 
 type ImageSelectionProps = {
-  selectedImage: (value: string) => void
+  selectedImage: (value: File) => void
 }
 
 const ImageSelection = ({selectedImage}: ImageSelectionProps) => {
-const [file, setFile] = useState<File>()
+const [file, setFile] = useState<File | null>(null)
 
   const onFileSelected = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0])
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
+      selectedImage(selectedFile); 
     }
   }
 
@@ -20,12 +22,12 @@ const [file, setFile] = useState<File>()
       <h3>Select Image of your room</h3>
       <div className="mt-3">
         <label htmlFor="upload-image">
-          <div className={`flex justify-center border-primary  bg-slate-200 cursor-pointer p-28 
-              border rounded-xl border-dotted hover:shadow-lg ${file && 'p-0 bg-white'}`}>
+          <div className={`flex justify-center border-primary  bg-slate-200 cursor-pointer 
+              border rounded-xl border-dotted hover:shadow-lg ${file ? 'p-0 bg-white' : 'p-28'}`}>
                 {!file ? (
                   <Image src={'/image-upload.png'} width={70} height={70} alt="" />
                 ) : (
-                  <Image src={URL.createObjectURL(file)} width={300} height={300} alt="" className="object-cover w-[300px] h-[300px]"/>
+                  <Image src={URL.createObjectURL(file)} width={300} height={300} alt="" className="object-fill h-[300px] w-[300px]"/>
                 )}
           </div>
         </label>
