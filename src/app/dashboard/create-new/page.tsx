@@ -27,22 +27,28 @@ function CreateNew() {
 
   const GenerateAiImage = async () => {
     const rawImageUrl = await SaveRawImageToFirebase();
-    // try {
-    //   const response = await fetch('/api/redesign-room', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   })
-    //   if (!response.ok) {
-    //     throw new Error('Failed to generate AI image')
-    //   }
+    try {
+      const response = await fetch('/api/redesign-room', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          imageUrl: rawImageUrl,
+          roomType: formData.roomType,
+          desinType: formData.designType,
+          additionalReq: formData.additionalReq,
+        })
+      })
+      if (!response.ok) {
+        throw new Error('Failed to generate AI image')
+      }
 
-    //   const data = await response.json();
-    //   console.log(data)
-    // } catch (err) {
-    //   console.log(err)
-    // }
+      const data = await response.json();
+      console.log(data)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const SaveRawImageToFirebase = async () => {
