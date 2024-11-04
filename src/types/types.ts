@@ -4,6 +4,15 @@ export type ProviderProps = {
 	children: ReactNode
 }
 
+export type RoomList = {
+  id: number
+  roomType: string 
+  designType: string
+  orgImage: string 
+  aiImage: string 
+  userEmail: string | null
+}
+
 export type fieldNameProps = {
   image?: Blob | Uint8Array | ArrayBuffer;
   roomType?: string;

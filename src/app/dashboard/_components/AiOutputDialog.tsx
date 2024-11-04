@@ -10,7 +10,7 @@ import 'react-before-after-slider-component/dist/build.css';
 
 type AiOutputDialogProps = {
   openDialog: boolean
-  closeDialog: (value: boolean) => void
+  closeDialog: () => void
   orgImage: string
   aiImage: string
 }
@@ -18,6 +18,9 @@ type AiOutputDialogProps = {
 const AiOutputDialog = ({ openDialog, closeDialog, orgImage, aiImage }: AiOutputDialogProps) => {
   return (
     <AlertDialog open={openDialog}>
+      {openDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={closeDialog}></div>
+      )}
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Result:</AlertDialogTitle>
@@ -30,12 +33,10 @@ const AiOutputDialog = ({ openDialog, closeDialog, orgImage, aiImage }: AiOutput
             }}
           />
 
-          <Button onClick={() => closeDialog(false)}>Close</Button>
+          <Button onClick={closeDialog}>Close</Button>
         </AlertDialogHeader>
-
       </AlertDialogContent>
     </AlertDialog>
-
   )
 }
 

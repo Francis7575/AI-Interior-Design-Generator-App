@@ -14,7 +14,7 @@ const CustomLoading = ({loading}: CustomLoadingProps) => {
     <AlertDialog open={loading}>
       <AlertDialogContent>
         <div className="bg-white flex flex-col items-center justify-center">
-          <Image src={'/loading.gif'} width={80} height={80} alt="Loading..."/>
+          <Image src={'/loading.gif'} width={50} height={50} alt="Loading..."/>
           <AlertDialogTitle className="mt-4">Redesigning your Room... Do not Refresh</AlertDialogTitle>
         </div>
       </AlertDialogContent>

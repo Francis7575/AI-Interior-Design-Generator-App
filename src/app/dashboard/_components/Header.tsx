@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { userContext } from "@/context/UserContext"
 import { UserButton } from "@clerk/nextjs"
 import Image from "next/image"
+import Link from "next/link"
 import { useContext } from "react"
 
 const Header = () => {
@@ -14,10 +15,10 @@ const Header = () => {
 
   return (
     <header className="p-5 shadow-sm flex justify-between items-center">
-      <div className="flex items-center gap-2">
+      <Link href={'/dashboard'} className="flex items-center gap-2">
         <Image src={'/logo.svg'} width={40} height={40} alt="" />
         <h2 className="font-bold text-lg hidden md:block">AI Room Design</h2>
-      </div>
+      </Link>
       <Button variant="ghost" className="rounded-full text-primary">
         Buy More Credits
       </Button>

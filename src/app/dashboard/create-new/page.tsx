@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import ImageSelection from './_components/ImageSelection'
 import RoomType from './_components/RoomType'
 import DesignType from './_components/DesignType'
@@ -11,6 +11,7 @@ import { useUser } from '@clerk/nextjs'
 import CustomLoading from './_components/CustomLoading'
 import { fieldNameProps } from '@/types/types'
 import AiOutputDialog from '../_components/AiOutputDialog'
+import { modalContext } from '@/context/ModalContext'
 
 
 function CreateNew() {
@@ -18,8 +19,13 @@ function CreateNew() {
   const [formData, setFormData] = useState<fieldNameProps>({});
   const [loading, setLoading] = useState<boolean>(false)
   const [aiOutputImage, setAiOutputImage] = useState<string>('')
-  const [openOutputDialog, setOpenOutputDialog] = useState<boolean>(false)
   const [orgImage, setOrgImage] = useState<string>('')
+
+  const context = useContext(modalContext);
+  if (!context) {
+    return null;
+  }
+  const { openDialog, setOpenDialog } = context;
 
   const handleInputChange = (value: any, fieldname: any) => {
     setFormData(prev => ({
@@ -51,7 +57,7 @@ function CreateNew() {
 
       const data = await response.json();
       setAiOutputImage(data.result)
-      setOpenOutputDialog(true)
+      setOpenDialog(true)
       setLoading(false)
     } catch (err) {
       console.log(err)
@@ -97,8 +103,8 @@ function CreateNew() {
       </div>
       <CustomLoading loading={loading} />
       <AiOutputDialog
-        openDialog={openOutputDialog}
-        closeDialog={() => setOpenOutputDialog(false)}
+        openDialog={openDialog}
+        closeDialog={() => setOpenDialog(false)}
         orgImage={orgImage}
         aiImage={aiOutputImage}
         />
