@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
     }).returning({id: AiGeneratedImage.id})
 
     console.log(dbResult)
-    return NextResponse.json({ 'result': dbResult })
+    return NextResponse.json({ 'result': downloadUrl })
   } catch (err) {
     return NextResponse.json({ error: err })
   }

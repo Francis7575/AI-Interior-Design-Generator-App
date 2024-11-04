@@ -8,17 +8,18 @@ import { Button } from '@/components/ui/button'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { storage } from '@/config/firebase'
 import { useUser } from '@clerk/nextjs'
+import CustomLoading from './_components/CustomLoading'
+import { fieldNameProps } from '@/types/types'
+import AiOutputDialog from '../_components/AiOutputDialog'
 
-type fieldNameProps = {
-  image?: Blob | Uint8Array | ArrayBuffer;
-  roomType?: string;
-  designType?: string;
-  additionalReq?: string;
-}
 
 function CreateNew() {
-  const {user} = useUser()
+  const { user } = useUser()
   const [formData, setFormData] = useState<fieldNameProps>({});
+  const [loading, setLoading] = useState<boolean>(false)
+  const [aiOutputImage, setAiOutputImage] = useState<string>('')
+  const [openOutputDialog, setOpenOutputDialog] = useState<boolean>(false)
+  const [orgImage, setOrgImage] = useState<string>('')
 
   const handleInputChange = (value: any, fieldname: any) => {
     setFormData(prev => ({
@@ -28,6 +29,7 @@ function CreateNew() {
   }
 
   const GenerateAiImage = async () => {
+    setLoading(true)
     const rawImageUrl = await SaveRawImageToFirebase();
     try {
       const response = await fetch('/api/redesign-room', {
@@ -48,22 +50,24 @@ function CreateNew() {
       }
 
       const data = await response.json();
-      console.log(data)
+      setAiOutputImage(data.result)
+      setOpenOutputDialog(true)
+      setLoading(false)
     } catch (err) {
       console.log(err)
     }
   }
 
   const SaveRawImageToFirebase = async () => {
-    const fileName = Date.now()+"_raw.png";
-    const imageRef = ref(storage, 'room-redesign/'+fileName)
+    const fileName = Date.now() + "_raw.png";
+    const imageRef = ref(storage, 'room-redesign/' + fileName)
 
     try {
       await uploadBytes(imageRef, formData.image as Blob | Uint8Array | ArrayBuffer); // Pass the image directly
       console.log('File uploaded...');
-  
+
       const downloadUrl = await getDownloadURL(imageRef);
-      console.log(downloadUrl);
+      setOrgImage(downloadUrl)
       return downloadUrl;
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -91,6 +95,13 @@ function CreateNew() {
           <p className='text-sm text-gray-400 mb-20'>Note: 1 Credit will be use to redesign your room</p>
         </div>
       </div>
+      <CustomLoading loading={loading} />
+      <AiOutputDialog
+        openDialog={openOutputDialog}
+        closeDialog={() => setOpenOutputDialog(false)}
+        orgImage={orgImage}
+        aiImage={aiOutputImage}
+        />
     </div>
   )
 }
