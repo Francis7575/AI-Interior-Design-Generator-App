@@ -7,6 +7,7 @@ import AdditionalReq from './_components/AdditionalReq'
 import { Button } from '@/components/ui/button'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { storage } from '@/config/firebase'
+import { useUser } from '@clerk/nextjs'
 
 type fieldNameProps = {
   image?: Blob | Uint8Array | ArrayBuffer;
@@ -16,6 +17,7 @@ type fieldNameProps = {
 }
 
 function CreateNew() {
+  const {user} = useUser()
   const [formData, setFormData] = useState<fieldNameProps>({});
 
   const handleInputChange = (value: any, fieldname: any) => {
@@ -36,8 +38,9 @@ function CreateNew() {
         body: JSON.stringify({
           imageUrl: rawImageUrl,
           roomType: formData.roomType,
-          desinType: formData.designType,
+          designType: formData.designType,
           additionalReq: formData.additionalReq,
+          userEmail: user?.primaryEmailAddress?.emailAddress
         })
       })
       if (!response.ok) {
