@@ -11,6 +11,10 @@ body {
   max-height: 160px;
 } */
 
+.bg-black\/80 {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

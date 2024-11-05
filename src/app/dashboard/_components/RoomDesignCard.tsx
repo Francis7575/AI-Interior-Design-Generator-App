@@ -2,7 +2,7 @@ import { RoomList } from "@/types/types"
 import ReactBeforeSliderComponent from 'react-before-after-slider-component';
 import 'react-before-after-slider-component/dist/build.css';
 import AiOutputDialog from "./AiOutputDialog";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { modalContext } from "@/context/ModalContext";
 
 type RoomDesignCardProps = {
@@ -18,7 +18,7 @@ const RoomDesignCard = ({ room }: RoomDesignCardProps) => {
   const { openDialog, setOpenDialog } = context;
 
   return (
-    <div>
+    <>
       <div className="shadow-md rounded-md cursor-pointer hover:opacity-70"
         onClick={() => setOpenDialog(true)}>
         <ReactBeforeSliderComponent
@@ -40,7 +40,7 @@ const RoomDesignCard = ({ room }: RoomDesignCardProps) => {
         aiImage={room.aiImage}
         orgImage={room.orgImage}
       />
-    </div>
+    </>
   )
 }
 

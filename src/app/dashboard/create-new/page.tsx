@@ -12,6 +12,9 @@ import CustomLoading from './_components/CustomLoading'
 import { fieldNameProps } from '@/types/types'
 import AiOutputDialog from '../_components/AiOutputDialog'
 import { modalContext } from '@/context/ModalContext'
+import { userContext } from '@/context/UserContext'
+import { db } from '@/config/db'
+import { Users } from '@/config/schema'
 
 
 function CreateNew() {
@@ -21,11 +24,13 @@ function CreateNew() {
   const [aiOutputImage, setAiOutputImage] = useState<string>('')
   const [orgImage, setOrgImage] = useState<string>('')
 
-  const context = useContext(modalContext);
-  if (!context) {
+  const modalContextValue = useContext(modalContext);
+  const userContextValue  = useContext(userContext);
+  if (!modalContextValue || !userContextValue) {
     return null;
   }
-  const { openDialog, setOpenDialog } = context;
+  const { openDialog, setOpenDialog } = modalContextValue;
+  const { userDetail, setUserDetail } = userContextValue;
 
   const handleInputChange = (value: any, fieldname: any) => {
     setFormData(prev => ({
@@ -56,6 +61,7 @@ function CreateNew() {
       }
 
       const data = await response.json();
+      await updateUserCredits()
       setAiOutputImage(data.result)
       setOpenDialog(true)
       setLoading(false)
@@ -77,6 +83,20 @@ function CreateNew() {
       return downloadUrl;
     } catch (error) {
       console.error('Error uploading file:', error);
+    }
+  }
+
+  const updateUserCredits = async () => {
+    const result = await db.update(Users).set({
+      credits: (userDetail?.credits || 0) - 1
+    }).returning({id: Users.id})
+
+    if (result) {
+      setUserDetail(prev => ({
+        ...prev,
+        credits: (userDetail?.credits || 0) -1
+      }))
+      return result[0].id
     }
   }
 

@@ -5,7 +5,7 @@ import { createContext } from "react";
 
 interface UserContextType {
   userDetail: UserInfo | null;
-  setuserDetail: React.Dispatch<React.SetStateAction<UserInfo | null>>;
+  setUserDetail: React.Dispatch<React.SetStateAction<UserInfo | null>>;
 }
 
 export const userContext = createContext<UserContextType | null>(null);

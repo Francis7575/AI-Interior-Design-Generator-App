@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react'
 import { userContext } from '@/context/UserContext'
 import { modalContext } from '@/context/ModalContext'
 import { UserInfo, ProviderProps } from "@/types/types";
-
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 const Provider = ({ children }: ProviderProps) => {
 	const { user } = useUser();
-	const [userDetail, setuserDetail] = useState<UserInfo | null>(null)
+	const [userDetail, setUserDetail] = useState<UserInfo | null>(null)
 	const [openDialog, setOpenDialog] = useState<boolean>(false)
 
 	useEffect(() => {
@@ -30,7 +30,7 @@ const Provider = ({ children }: ProviderProps) => {
 			}
 
 			const data = await response.json();
-			setuserDetail(data.result)
+			setUserDetail(data.result)
 			return data
 		} catch (err) {
 			console.error(err)
@@ -38,11 +38,13 @@ const Provider = ({ children }: ProviderProps) => {
 
 	}
 	return (
-		<userContext.Provider value={{ userDetail, setuserDetail}}>
-			<modalContext.Provider value={{openDialog, setOpenDialog}}>
-				<div>
-					{children}
-				</div>
+		<userContext.Provider value={{ userDetail, setUserDetail }}>
+			<modalContext.Provider value={{ openDialog, setOpenDialog }}>
+				<PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID! }}>
+					<div>
+						{children}
+					</div>
+				</PayPalScriptProvider>
 			</modalContext.Provider>
 		</userContext.Provider>
 	)

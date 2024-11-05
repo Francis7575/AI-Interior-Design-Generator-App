@@ -11,7 +11,7 @@ const Header = () => {
   if (!context) {
     return null;
   }
-  const { userDetail, setuserDetail } = context;
+  const { userDetail } = context;
 
   return (
     <header className="p-5 shadow-sm flex justify-between items-center">
@@ -19,13 +19,15 @@ const Header = () => {
         <Image src={'/logo.svg'} width={40} height={40} alt="" />
         <h2 className="font-bold text-lg hidden md:block">AI Room Design</h2>
       </Link>
-      <Button variant="ghost" className="rounded-full text-primary">
-        Buy More Credits
-      </Button>
+      <Link href="/dashboard/buy-credits">
+        <Button variant="ghost" className="rounded-full text-primary">
+          Buy More Credits
+        </Button>
+      </Link>
       <div className="flex items-center gap-6">
         <div className="flex gap-2 py-1 items-center bg-slate-200 px-4 rounded-full">
           <Image src={'/star.png'} width={20} height={20} alt="" />
-          <span>{userDetail?.credits}</span>
+          <span className="font-semibold">{userDetail?.credits}</span>
         </div>
         <UserButton />
       </div>
