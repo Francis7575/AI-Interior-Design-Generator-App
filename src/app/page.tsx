@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <section className="mt-12">
       <div className="flex flex-col items-center px-4">
-        <h1 className="font-bold text-[2.25rem] text-center flex flex-col">
+        <h1 className="font-bold text-[2.25rem] lg:text-[2.8rem] text-center flex flex-col">
           <span>AI Room and Home</span>
           <span className="gradient-text">Interior Design</span>
         </h1>
