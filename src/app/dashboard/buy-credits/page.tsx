@@ -91,7 +91,7 @@ const page = () => {
                 ]
               })
             }}
-            forceReRender={[selectedOption]}
+            forceReRender={[selectedOption]} // cause re-render to update selectedOption when changing option properly
           />
         )}
       </div>

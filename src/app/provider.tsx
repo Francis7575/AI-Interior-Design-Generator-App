@@ -5,6 +5,7 @@ import { userContext } from '@/context/UserContext'
 import { modalContext } from '@/context/ModalContext'
 import { UserInfo, ProviderProps } from "@/types/types";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import Header from './_components/Header'
 
 const Provider = ({ children }: ProviderProps) => {
 	const { user } = useUser();
@@ -41,6 +42,7 @@ const Provider = ({ children }: ProviderProps) => {
 		<userContext.Provider value={{ userDetail, setUserDetail }}>
 			<modalContext.Provider value={{ openDialog, setOpenDialog }}>
 				<PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID! }}>
+					<Header />
 					<div>
 						{children}
 					</div>

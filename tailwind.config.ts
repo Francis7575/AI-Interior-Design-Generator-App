@@ -20,6 +20,9 @@ const config: Config = {
           foreground: "hsl(var(--card-foreground))",
         },
         lightgray: 'rgb(211, 211, 211)',
+        lightblue: '#8aa1b4',
+        blue: 'hsl(222, 80%, 53%)',
+        secondlightblue: 'rgb(249, 250, 251)',
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",

@@ -15,6 +15,25 @@ body {
   background-color: rgba(0, 0, 0, 0.2) !important;
 }
 
+.dashboard-icon {
+  color: #7f58f3;
+  transition: color 0.3s; /* Adds a smooth transition effect */
+}
+
+.dashboard-icon:hover {
+  color: #5b42c8; /* Change to your desired hover color */
+}
+
+.gradient-text {
+  background-image: linear-gradient(90deg, #6644ea, #4753ee, #305ee7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-bg {
+  background-image: linear-gradient(90deg, #6644ea, #4753ee, #305ee7);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
