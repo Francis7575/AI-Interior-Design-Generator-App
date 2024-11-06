@@ -25,7 +25,7 @@ export default function Home() {
           <ChevronRight />
         </Link>
       </div>
-      <div className="flex justify-center mt-10 px-4 md:gap-6 lg:gap-[4.5rem] md:mt-20">
+      <div className="flex justify-center mt-10 px-4 md:gap-6 lg:gap-[5.2rem] md:mt-20">
         <Image src={'/original-image.png'} height={100} width={100} alt="Original Image" className="w-full max-w-[400px] rounded-lg" />
         <Image src={'/arrow.png'} height={100} width={100} alt="" />
         <Image src={'/AI-image.png'} height={100} width={100} alt="AI Image" className="w-full max-w-[400px] rounded-lg" />
