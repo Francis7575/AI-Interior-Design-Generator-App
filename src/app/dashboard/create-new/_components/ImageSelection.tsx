@@ -27,7 +27,7 @@ const [file, setFile] = useState<File | null>(null)
                 {!file ? (
                   <Image src={'/image-upload.png'} width={70} height={70} alt="" />
                 ) : (
-                  <Image src={URL.createObjectURL(file)} width={300} height={300} alt="" className="object-fill h-[300px] w-[300px]"/>
+                  <Image src={URL.createObjectURL(file)} width={300} height={300} alt="" className="object-fill h-auto w-auto"/>
                 )}
           </div>
         </label>
