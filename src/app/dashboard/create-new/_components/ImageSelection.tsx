@@ -15,9 +15,9 @@ const ImageSelection = ({ selectedImage }: ImageSelectionProps) => {
       const selectedFile = e.target.files[0];
 
       const compressedFile = await imageCompression(selectedFile, {
-        maxSizeMB: 0.3,           
-        maxWidthOrHeight: 800,    
-        fileType: 'image/jpeg',   
+        maxSizeMB: 0.1,           
+        maxWidthOrHeight: 500,   
+        useWebWorker: true,
       });
 
       setFile(compressedFile);
