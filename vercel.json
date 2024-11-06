@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/**.ts": {
+      "runtime": "nodejs16.x"  
+    },
+    "middleware.ts": {
+      "runtime": "nodejs16.x"  
+    }
+  }
+}
