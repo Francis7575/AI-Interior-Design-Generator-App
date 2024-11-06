@@ -23,10 +23,10 @@
     "drizzle-orm": "^0.35.3",
     "firebase": "^11.0.1",
     "lucide-react": "^0.454.0",
-    "next": "15.0.2",
-    "react": "^18.3.1",
+    "next": "^14.2.17",
+    "react": "^18.2.0",
     "react-before-after-slider-component": "^1.1.8",
-    "react-dom": "^18.3.1",
+    "react-dom": "^18.2.0",
     "replicate": "^0.33.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"
