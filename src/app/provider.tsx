@@ -1,6 +1,6 @@
 "use client"
 import { useUser } from '@clerk/nextjs'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { userContext } from '@/context/UserContext'
 import { modalContext } from '@/context/ModalContext'
 import { UserInfo, ProviderProps } from "@/types/types";
@@ -13,7 +13,7 @@ const Provider = ({ children }: ProviderProps) => {
 	const [openDialog, setOpenDialog] = useState<boolean>(false)
 
 	
-	const verifyUser = async () => {
+	const verifyUser = useCallback(async () => {
 		try {
 			const response = await fetch('/api/verify-user', {
 				method: 'POST',
@@ -33,7 +33,7 @@ const Provider = ({ children }: ProviderProps) => {
 		} catch (err) {
 			console.error(err)
 		}
-	}
+	}, [user])
 
 	useEffect(() => {
 		if (user) {
