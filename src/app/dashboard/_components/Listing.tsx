@@ -15,19 +15,22 @@ const Listing = () => {
   const { user } = useUser()
   const [userRoomList, setUserRoomList] = useState<RoomList[]>([])
 
-  useEffect(() => {
-    user && GetUserRoomList()
-  }, [user])
-
+  
   const GetUserRoomList = async () => {
     const userEmail = user?.primaryEmailAddress?.emailAddress || '';
     const result = await db.select().from(AiGeneratedImage)
-      .where(eq(AiGeneratedImage.userEmail, userEmail))
-
+    .where(eq(AiGeneratedImage.userEmail, userEmail))
+    
     setUserRoomList(result)
     console.log(result);
   }
-
+  
+  useEffect(() => {
+    if (user) {
+      GetUserRoomList()
+    }
+  }, [user, GetUserRoomList])
+  
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -41,7 +44,7 @@ const Listing = () => {
         <EmptyState />
         :
         <div className="mt-10">
-          <h2 className="font-medium text-md md:text-xl text-primary mb-10">AI Room Studio</h2> 
+          <h2 className="font-medium text-md md:text-xl text-primary mb-10">AI Room Studio</h2>
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {userRoomList.map((room: RoomList, idx: number) => (
               <RoomDesignCard key={idx} room={room} />

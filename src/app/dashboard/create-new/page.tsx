@@ -32,7 +32,7 @@ function CreateNew() {
   const { openDialog, setOpenDialog } = modalContextValue;
   const { userDetail, setUserDetail } = userContextValue;
 
-  const handleInputChange = (value: any, fieldname: any) => {
+  const handleInputChange = (value: string | File, fieldname: string) => {
     setFormData(prev => ({
       ...prev,
       [fieldname]: value

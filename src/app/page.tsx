@@ -30,7 +30,7 @@ export default function Home() {
         <Image src={'/arrow.png'} height={100} width={100} alt="" />
         <Image src={'/AI-image.png'} height={100} width={100} alt="AI Image" className="w-full max-w-[400px] rounded-lg" />
       </div>
-      <div className="mt-14 px-4 flex flex-col lg:items-center lg:justify-center lg:flex-row gap-8 pb-[2.5rem]">
+      <div className="mt-14 px-4 flex flex-col lg:items-center lg:justify-center lg:flex-row gap-8 lg:gap-[4rem] pb-[2.5rem]">
         {homeInfo.map((item, idx) => (
           <div key={idx} className="p-4 rounded-md font-medium hover:bg-secondlightblue cursor-pointer">
             <div className="bg-blue p-3 inline-block rounded-lg mb-[1.25rem]">

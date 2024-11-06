@@ -32,7 +32,12 @@ export async function POST(req: NextRequest) {
     console.log(output)
     // const output = "https://replicate.delivery/pbxt/20E88yvnJv6PClMSXNS8rY7yAUFJdbRwrtFNaYKN9VWZjX7E/out.png"
     // Convert Output url to Base64 Image
-    const base64Image = await ConvertImageToBase64(output)
+    const outputCheck = typeof output === 'string' ? output : Array.isArray(output) ? output[0] : output;
+
+    if (typeof imageUrl !== 'string') {
+      throw new Error('Output is not a valid image URL');
+    }
+    const base64Image = await ConvertImageToBase64(outputCheck);
     // Save Base64 to firebase
     const fileName = Date.now() + '.png';
     const storageRef = ref(storage, 'room-redesign/' + fileName)
@@ -55,7 +60,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-async function ConvertImageToBase64(imageUrl: any) {
+async function ConvertImageToBase64(imageUrl: string) {
   try {
     const response = await fetch(imageUrl)
     if (!response.ok) {

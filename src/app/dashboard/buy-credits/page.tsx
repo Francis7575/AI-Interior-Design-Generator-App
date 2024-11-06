@@ -12,9 +12,10 @@ type BuyCreditsProps = {
   amount?: number
 }
 
-const page = () => {
+const BuyCreditsPage = () => {
   const [selectedOption, setSelectedOption] = useState<BuyCreditsProps | null>(null)
   const context = useContext(userContext);
+  const router = useRouter()
   if (!context) {
     return null;
   }
@@ -27,7 +28,6 @@ const page = () => {
     { credits: 50, amount: 6.99 },
     { credits: 100, amount: 9.99 }
   ]
-  const router = useRouter()
 
   const onPaymentSuccess = async () => {
     console.log("Payment Success");
@@ -99,4 +99,4 @@ const page = () => {
   )
 }
 
-export default page
+export default BuyCreditsPage

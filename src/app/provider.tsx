@@ -12,10 +12,7 @@ const Provider = ({ children }: ProviderProps) => {
 	const [userDetail, setUserDetail] = useState<UserInfo | null>(null)
 	const [openDialog, setOpenDialog] = useState<boolean>(false)
 
-	useEffect(() => {
-		if (user) verifyUser();
-	}, [user])
-
+	
 	const verifyUser = async () => {
 		try {
 			const response = await fetch('/api/verify-user', {
@@ -25,7 +22,7 @@ const Provider = ({ children }: ProviderProps) => {
 				},
 				body: JSON.stringify({ user: user })
 			})
-
+			
 			if (!response.ok) {
 				throw new Error('Failed to verify user');
 			}
@@ -36,8 +33,14 @@ const Provider = ({ children }: ProviderProps) => {
 		} catch (err) {
 			console.error(err)
 		}
-
 	}
+
+	useEffect(() => {
+		if (user) {
+			verifyUser();
+		}
+	}, [user, verifyUser])
+	
 	return (
 		<userContext.Provider value={{ userDetail, setUserDetail }}>
 			<modalContext.Provider value={{ openDialog, setOpenDialog }}>
