@@ -3,6 +3,8 @@ This application enables users to redesign their room interiors by uploading an 
 
 Techologies used: Nextjs15, Typescript, ShadcnUI, TailwindCSS, Firebase, PostgreSQL, Drizzle-ORM, Neon, Replicate-API.
 
+![Alt text](./project-image.png)
+
 Save image uploaded in firebase-storage
 Implemented Clerk-authentication
 Used of replicate API
