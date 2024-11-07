@@ -10,5 +10,7 @@ App features:
 - Integrated Paypal payment gateway.
 
 ![Alt text](./public/project-image.png)
+<hr></hr>
 
-
+# Application live link
+https://interior-design-gen-ai.vercel.app
