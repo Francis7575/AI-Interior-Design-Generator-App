@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import ImageSelection from "./_components/ImageSelection";
 import RoomType from "./_components/RoomType";
 import DesignType from "./_components/DesignType";
@@ -9,7 +9,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/config/firebase";
 import { useUser } from "@clerk/nextjs";
 import CustomLoading from "./_components/CustomLoading";
-import { fieldNameProps, UserInfo } from "@/types/types";
+import { fieldNameProps } from "@/types/types";
 import AiOutputDialog from "../_components/AiOutputDialog";
 import { modalContext } from "@/context/ModalContext";
 import { userContext } from "@/context/UserContext";
@@ -89,21 +89,10 @@ function CreateNew() {
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      setUserDetail((prev) => ({
-        ...prev,
-        credits: prev?.credits || 0, // Set default credits to 0
-      }));
-      // Call updateUserCredits when user logs in
-      updateUserCredits();
-    } else {
-      setUserDetail(null);
-    }
-  }, [user, setUserDetail]);
 
-  const updateUserCredits = async () => {
-    if (!userDetail) return;
+
+  const updateUserCredits = useCallback(async () => {
+    if (!userDetail || userDetail.id === undefined) return;
 
     try {
       const result = await db
@@ -111,7 +100,7 @@ function CreateNew() {
         .set({
           credits: (userDetail?.credits! || 0) - 1,
         })
-        .where(eq(Users.id, userDetail!.id!))
+        .where(eq(Users.id, userDetail.id))
         .returning({ credits: Users.credits });
 
       if (result.length > 0) {
@@ -124,7 +113,20 @@ function CreateNew() {
     } catch (error) {
       console.error("Error updating user credits:", error);
     }
-  };
+  }, [userDetail, setUserDetail]);
+
+  useEffect(() => {
+    if (user) {
+      setUserDetail((prev) => ({
+        ...prev,
+        credits: prev?.credits || 0, // Set default credits to 0
+      }));
+      // Call updateUserCredits when user logs in
+      updateUserCredits();
+    } else {
+      setUserDetail(null);
+    }
+  }, [user, setUserDetail, updateUserCredits]);
 
   // console.log(userDetail);
 

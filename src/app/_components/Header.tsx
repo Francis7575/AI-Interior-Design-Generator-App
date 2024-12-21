@@ -4,7 +4,7 @@ import { userContext } from "@/context/UserContext";
 import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { LayoutDashboard } from "lucide-react";
 import Tooltip from "./Tooltip";
 
