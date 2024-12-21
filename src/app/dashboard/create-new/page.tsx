@@ -89,8 +89,6 @@ function CreateNew() {
     }
   };
 
-
-
   const updateUserCredits = useCallback(async () => {
     if (!userDetail || userDetail.id === undefined) return;
 
@@ -116,7 +114,7 @@ function CreateNew() {
   }, [userDetail, setUserDetail]);
 
   useEffect(() => {
-    if (user) {
+    if (userContextValue && user) {
       setUserDetail((prev) => ({
         ...prev,
         credits: prev?.credits || 0, // Set default credits to 0
@@ -126,7 +124,7 @@ function CreateNew() {
     } else {
       setUserDetail(null);
     }
-  }, [user, setUserDetail, updateUserCredits]);
+  }, [user, setUserDetail, updateUserCredits, userContextValue]);
 
   // console.log(userDetail);
 
