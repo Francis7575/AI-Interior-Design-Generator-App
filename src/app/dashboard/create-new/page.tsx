@@ -9,7 +9,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/config/firebase";
 import { useUser } from "@clerk/nextjs";
 import CustomLoading from "./_components/CustomLoading";
-import { fieldNameProps, UserInfo } from "@/types/types";
+import { fieldNameProps } from "@/types/types";
 import AiOutputDialog from "../_components/AiOutputDialog";
 import { modalContext } from "@/context/ModalContext";
 import { userContext } from "@/context/UserContext";
@@ -27,13 +27,8 @@ function CreateNew() {
   const modalContextValue = useContext(modalContext);
   const userContextValue = useContext(userContext);
 
-  // Make sure modalContextValue and userContextValue are valid before proceeding
-  if (!modalContextValue || !userContextValue) {
-    return null; // Or handle this case appropriately
-  }
-
-  const { openDialog, setOpenDialog } = modalContextValue;
-  const { userDetail, setUserDetail } = userContextValue;
+  const { openDialog = false, setOpenDialog } = modalContextValue || {};
+  const { userDetail, setUserDetail } = userContextValue || {};
 
   const handleInputChange = (value: string | File, fieldname: string) => {
     setFormData((prev) => ({
@@ -55,10 +50,12 @@ function CreateNew() {
         .returning({ credits: Users.credits });
 
       if (result.length > 0) {
-        setUserDetail((prev) => ({
-          ...prev,
-          credits: result[0].credits ?? 0,
-        }));
+        if (setUserDetail) {
+          setUserDetail((prev) => ({
+            ...prev,
+            credits: result[0].credits ?? 0,
+          }));
+        }
       }
     } catch (error) {
       console.error("Error updating user credits:", error);
@@ -67,16 +64,22 @@ function CreateNew() {
 
   useEffect(() => {
     if (userContextValue && user) {
-      setUserDetail((prev) => ({
-        ...prev,
-        credits: prev?.credits || 0, // Handle undefined credits
-      }));
+      if (setUserDetail) {
+        setUserDetail((prev) => ({
+          ...prev,
+          credits: prev?.credits || 0, // Handle undefined credits
+        }));
+      }
       // Call updateUserCredits when user logs in
       updateUserCredits();
     } else {
-      setUserDetail(null);
+      setUserDetail!(null);
     }
   }, [user, setUserDetail, updateUserCredits, userContextValue]);
+
+  if (!modalContextValue || !userContextValue) {
+    return null; // Or handle this case appropriately
+  }
 
   const GenerateAiImage = async () => {
     setLoading(true);
@@ -102,7 +105,7 @@ function CreateNew() {
       const data = await response.json();
       await updateUserCredits();
       setAiOutputImage(data.result);
-      setOpenDialog(true);
+      setOpenDialog!(true);
       setLoading(false);
     } catch (err) {
       console.log(err);
@@ -167,7 +170,7 @@ function CreateNew() {
       <CustomLoading loading={loading} />
       <AiOutputDialog
         openDialog={openDialog}
-        closeDialog={() => setOpenDialog(false)}
+        closeDialog={() => setOpenDialog && setOpenDialog(false)}
         orgImage={orgImage}
         aiImage={aiOutputImage}
       />
