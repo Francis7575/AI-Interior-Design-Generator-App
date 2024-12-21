@@ -9,7 +9,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/config/firebase";
 import { useUser } from "@clerk/nextjs";
 import CustomLoading from "./_components/CustomLoading";
-import { fieldNameProps } from "@/types/types";
+import { fieldNameProps, UserInfo } from "@/types/types";
 import AiOutputDialog from "../_components/AiOutputDialog";
 import { modalContext } from "@/context/ModalContext";
 import { userContext } from "@/context/UserContext";
@@ -26,9 +26,12 @@ function CreateNew() {
 
   const modalContextValue = useContext(modalContext);
   const userContextValue = useContext(userContext);
+
+  // Make sure modalContextValue and userContextValue are valid before proceeding
   if (!modalContextValue || !userContextValue) {
-    return null;
+    return null; // Or handle this case appropriately
   }
+
   const { openDialog, setOpenDialog } = modalContextValue;
   const { userDetail, setUserDetail } = userContextValue;
 
@@ -46,7 +49,7 @@ function CreateNew() {
       const result = await db
         .update(Users)
         .set({
-          credits: (userDetail?.credits! || 0) - 1,
+          credits: (userDetail?.credits || 0) - 1, // Avoid using non-null assertion
         })
         .where(eq(Users.id, userDetail.id))
         .returning({ credits: Users.credits });
@@ -56,7 +59,6 @@ function CreateNew() {
           ...prev,
           credits: result[0].credits ?? 0,
         }));
-        // return result[0].id
       }
     } catch (error) {
       console.error("Error updating user credits:", error);
@@ -67,7 +69,7 @@ function CreateNew() {
     if (userContextValue && user) {
       setUserDetail((prev) => ({
         ...prev,
-        credits: prev?.credits || 0, // Set default credits to 0
+        credits: prev?.credits || 0, // Handle undefined credits
       }));
       // Call updateUserCredits when user logs in
       updateUserCredits();
@@ -126,10 +128,6 @@ function CreateNew() {
     }
   };
 
-
-
-  // console.log(userDetail);
-
   return (
     <div className="max-w-[1100px] mx-auto">
       <h2 className="font-bold text-4xl text-primary text-center">
@@ -162,7 +160,7 @@ function CreateNew() {
             Generate
           </Button>
           <p className="text-sm text-gray-400 mb-20">
-            Note: 1 Credit will be use to redesign your room
+            Note: 1 Credit will be used to redesign your room
           </p>
         </div>
       </div>
