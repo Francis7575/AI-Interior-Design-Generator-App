@@ -22,8 +22,8 @@ export type fieldNameProps = {
 
 export type UserInfo = {
   id?: number;
-  credits?: number;
+  name?: string
   email?: string
   imageUrl?: string
-  name?: string
+  credits?: number;
 }
