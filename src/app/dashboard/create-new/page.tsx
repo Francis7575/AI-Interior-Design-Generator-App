@@ -39,6 +39,43 @@ function CreateNew() {
     }));
   };
 
+  const updateUserCredits = useCallback(async () => {
+    if (!userDetail || userDetail.id === undefined) return;
+
+    try {
+      const result = await db
+        .update(Users)
+        .set({
+          credits: (userDetail?.credits! || 0) - 1,
+        })
+        .where(eq(Users.id, userDetail.id))
+        .returning({ credits: Users.credits });
+
+      if (result.length > 0) {
+        setUserDetail((prev) => ({
+          ...prev,
+          credits: result[0].credits ?? 0,
+        }));
+        // return result[0].id
+      }
+    } catch (error) {
+      console.error("Error updating user credits:", error);
+    }
+  }, [userDetail, setUserDetail]);
+
+  useEffect(() => {
+    if (userContextValue && user) {
+      setUserDetail((prev) => ({
+        ...prev,
+        credits: prev?.credits || 0, // Set default credits to 0
+      }));
+      // Call updateUserCredits when user logs in
+      updateUserCredits();
+    } else {
+      setUserDetail(null);
+    }
+  }, [user, setUserDetail, updateUserCredits, userContextValue]);
+
   const GenerateAiImage = async () => {
     setLoading(true);
     const rawImageUrl = await SaveRawImageToFirebase();
@@ -89,42 +126,7 @@ function CreateNew() {
     }
   };
 
-  const updateUserCredits = useCallback(async () => {
-    if (!userDetail || userDetail.id === undefined) return;
 
-    try {
-      const result = await db
-        .update(Users)
-        .set({
-          credits: (userDetail?.credits! || 0) - 1,
-        })
-        .where(eq(Users.id, userDetail.id))
-        .returning({ credits: Users.credits });
-
-      if (result.length > 0) {
-        setUserDetail((prev) => ({
-          ...prev,
-          credits: result[0].credits ?? 0,
-        }));
-        // return result[0].id
-      }
-    } catch (error) {
-      console.error("Error updating user credits:", error);
-    }
-  }, [userDetail, setUserDetail]);
-
-  useEffect(() => {
-    if (userContextValue && user) {
-      setUserDetail((prev) => ({
-        ...prev,
-        credits: prev?.credits || 0, // Set default credits to 0
-      }));
-      // Call updateUserCredits when user logs in
-      updateUserCredits();
-    } else {
-      setUserDetail(null);
-    }
-  }, [user, setUserDetail, updateUserCredits, userContextValue]);
 
   // console.log(userDetail);
 
